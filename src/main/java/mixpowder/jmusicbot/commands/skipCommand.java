@@ -12,7 +12,7 @@ public class skipCommand extends Command{
 
 	public skipCommand(Cores core){
 		this.name = "skip";
-		this.help = "skip";
+		this.help = "skip 曲をスキップして次トラックに移動させます";
 		this.core = core;
 	}
 

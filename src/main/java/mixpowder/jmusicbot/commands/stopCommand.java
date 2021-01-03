@@ -11,7 +11,7 @@ public class stopCommand extends Command{
 
 	public stopCommand(Cores core){
 		this.name = "stop";
-		this.help = "stop";
+		this.help = "stop すべてのトラックを飛ばします";
 		this.core = core;
 	}
 

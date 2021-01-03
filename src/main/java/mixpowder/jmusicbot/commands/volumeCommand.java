@@ -12,7 +12,7 @@ public class volumeCommand extends Command{
 
 	public volumeCommand(Cores core){
 		this.name = "volume";
-		this.help = "volume <figures>";
+		this.help = "volume <数値> 音量を設定します 初期は3です";
 		this.core = core;
 	}
 

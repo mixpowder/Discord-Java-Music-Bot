@@ -12,7 +12,7 @@ public class playCommand extends Command{
 
 	public playCommand(Cores core){
 		this.name = "play";
-		this.help = "play <url>";
+		this.help = "play <url> 曲を再生させます";
 		this.core = core;
 	}
 

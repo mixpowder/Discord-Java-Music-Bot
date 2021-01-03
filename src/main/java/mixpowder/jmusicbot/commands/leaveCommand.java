@@ -12,19 +12,19 @@ public class leaveCommand extends Command{
 
 	public leaveCommand(Cores core){
 		this.name = "leave";
-		this.help = "leave";
+		this.help = "leave ボイスチャンネルからbotを退出させます";
 		this.core = core;
 	}
 
 	@Override
 	protected void execute(CommandEvent e) {
 		AudioManager audioManager = this.core.audioManager();
-        if (!audioManager.isConnected()) {
-        	e.reply("ボイスチャンネルに接続されていません");
+		if (!audioManager.isConnected()) {
+			e.reply("ボイスチャンネルに接続されていません");
             return;
-        }else{
-        	audioManager.closeAudioConnection();
-        }
+		}else{
+			audioManager.closeAudioConnection();
+		}
 	}
 
 }

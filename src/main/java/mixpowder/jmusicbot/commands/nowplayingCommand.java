@@ -12,7 +12,7 @@ public class nowplayingCommand extends Command {
 
 	public nowplayingCommand(Cores core){
 		this.name = "nowplaying";
-		this.help = "nowplaying";
+		this.help = "nowplaying 現在流れている曲の名前を表示させます";
 		this.core = core;
 	}
 
