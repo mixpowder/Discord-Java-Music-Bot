@@ -20,6 +20,7 @@ public class Cores{
 	private final AudioPlayerManager playerManager;
 	private final Map<Long, GuildMusicManager> musicManagers;
 	public GuildMusicManager musicManager;
+	private AudioManager audioManager;
 
 	public Cores(){
 		this.musicManagers = new HashMap<>();
@@ -45,7 +46,7 @@ public class Cores{
 
 	public void loadAndPlay(final TextChannel channel, final String trackUrl) {
 		musicManager = getGuildAudioPlayer(channel.getGuild());
-
+		audioManager = channel.getGuild().getAudioManager();
 	    playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
 	    	@Override
 	    	public void trackLoaded(AudioTrack track) {
@@ -54,14 +55,14 @@ public class Cores{
 	    	}
 
 	    	public void playlistLoaded(AudioPlaylist playlist) {
-	    		AudioTrack firstTrack = playlist.getSelectedTrack();
-
-	    		if (firstTrack == null) {
-	    			firstTrack = playlist.getTracks().get(0);
+	    		//AudioTrack firstTrack = playlist.getSelectedTrack();
+	    		//System.out.println(playlist.getTracks().size());
+	    		for(AudioTrack track : playlist.getTracks()){
+	    		//channel.sendMessage(track.getInfo().title + "が再生リストに追加されました").queue();
+	    		play(channel.getGuild(), musicManager, track);
 	    		}
+	    		channel.sendMessage(playlist.getTracks().size() + "曲が再生リストに追加されました").queue();
 
-	    		channel.sendMessage(firstTrack.getInfo().title + "が再生リストに追加されました").queue();
-	    		play(channel.getGuild(), musicManager, firstTrack);
 	    	}
 
 	    	public void noMatches() {
@@ -74,6 +75,7 @@ public class Cores{
 	}
 
 	  	public void play(Guild guild, GuildMusicManager musicManager, AudioTrack track) {
+	  		//this.audioManager = guild.getAudioManager();
 	  		connectToFirstVoiceChannel(guild.getAudioManager());
 	  		musicManager.player.setVolume(3);
 	  		musicManager.scheduler.queue(track);
@@ -83,7 +85,8 @@ public class Cores{
 	  		musicManager.scheduler.nextTrack();
 	  	}
 
-	  	private static void connectToFirstVoiceChannel(AudioManager audioManager) {
+
+		private static void connectToFirstVoiceChannel(AudioManager audioManager) {
 	  		if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
 	  			for (VoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
 	  				audioManager.openAudioConnection(voiceChannel);
@@ -100,4 +103,11 @@ public class Cores{
 	  		return musicManager.player.getVolume();
 	  	}
 
+	  	public AudioManager audioManager(){
+	  		return audioManager;
+	  	}
+
+	  	public AudioTrack nowPlaying(){
+	  		return musicManager.player.getPlayingTrack();
+	  	}
 }

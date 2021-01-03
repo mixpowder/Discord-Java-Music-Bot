@@ -12,15 +12,18 @@ public class playCommand extends Command{
 
 	public playCommand(Cores core){
 		this.name = "play";
-		this.help = "play <url or music name>";
+		this.help = "play <url>";
 		this.core = core;
 	}
 
 	@Override
 	protected void execute(CommandEvent e) {
 		String[] url = e.getMessage().getContentRaw().split(" ");
-		System.out.println(url[1]);
-        core.loadAndPlay(e.getTextChannel(),url[1]);
+		if(url.length == 2){
+			core.loadAndPlay(e.getTextChannel(),url[1]);
+		}else{
+			e.reply("引数を設定してください");
+		}
 	}
 
 }

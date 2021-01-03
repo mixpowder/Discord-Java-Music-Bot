@@ -16,8 +16,11 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
+import mixpowder.jmusicbot.commands.leaveCommand;
+import mixpowder.jmusicbot.commands.nowplayingCommand;
 import mixpowder.jmusicbot.commands.playCommand;
 import mixpowder.jmusicbot.commands.skipCommand;
+import mixpowder.jmusicbot.commands.stopCommand;
 import mixpowder.jmusicbot.commands.volumeCommand;
 import mixpowder.jmusicbot.cores.Cores;
 import net.dv8tion.jda.api.JDA;
@@ -88,7 +91,12 @@ public class Main {
 		Cores core = new Cores();
 		JDA jda = null;
 		CommandClientBuilder cc = new CommandClientBuilder()
-				.addCommands(new playCommand(core),new volumeCommand(core),new skipCommand(core))
+				.addCommands(new playCommand(core),
+						new volumeCommand(core),
+						new skipCommand(core),
+						new leaveCommand(core),
+						new stopCommand(core),
+						new nowplayingCommand(core))
 				.setPrefix("!!")
 				.setOwnerId(config.getString("OwnerID"))
 				.setActivity(Activity.streaming("La Campanella","https://www.youtube.com/watch?v=H1Dvg2MxQn8"));

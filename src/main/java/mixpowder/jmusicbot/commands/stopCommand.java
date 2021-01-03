@@ -5,21 +5,20 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 
 import mixpowder.jmusicbot.cores.Cores;
 
-
-public class skipCommand extends Command{
+public class stopCommand extends Command{
 
 	private Cores core;
 
-	public skipCommand(Cores core){
-		this.name = "skip";
-		this.help = "skip";
+	public stopCommand(Cores core){
+		this.name = "stop";
+		this.help = "stop";
 		this.core = core;
 	}
 
 	@Override
 	protected void execute(CommandEvent e) {
-		this.core.skipTrack();
-		e.reply("次のトラックに移動します");
+		this.core.musicManager.player.destroy();
+		e.reply("曲を終了させました");
 	}
 
 }
