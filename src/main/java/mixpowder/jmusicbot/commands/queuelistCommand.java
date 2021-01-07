@@ -5,20 +5,18 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 
 import mixpowder.jmusicbot.cores.Cores;
 
-public class stopCommand extends Command{
+public class queuelistCommand extends Command{
 
 	private Cores core;
 
-	public stopCommand(Cores core){
-		this.name = "stop";
-		this.help = "stop すべてのトラックを飛ばします";
+	public queuelistCommand(Cores core){
+		this.name = "queuelist";
+		this.help = "queuelist 現在流す予定の曲のリストを表示";
 		this.core = core;
 	}
 
 	@Override
 	protected void execute(CommandEvent e) {
-		this.core.musicManager().player().destroy();
-		e.reply("曲を終了させました");
+		e.reply(core.musicManager().scheduler().queuelist());
 	}
-
 }

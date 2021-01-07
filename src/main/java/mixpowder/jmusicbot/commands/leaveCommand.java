@@ -26,5 +26,4 @@ public class leaveCommand extends Command{
 			audioManager.closeAudioConnection();
 		}
 	}
-
 }

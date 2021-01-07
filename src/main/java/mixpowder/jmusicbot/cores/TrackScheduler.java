@@ -32,6 +32,16 @@ public class TrackScheduler extends AudioEventAdapter {
 		player.startTrack(queue.poll(), false);
 	}
 
+	public String queuelist(){
+		String list = "";
+		int id = 1;
+		for(AudioTrack track : queue){
+			list += id + "番目: " + track.getInfo().title + "\n";
+			id++;
+		}
+		return list;
+	}
+
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if (endReason.mayStartNext) {

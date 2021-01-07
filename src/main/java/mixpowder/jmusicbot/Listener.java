@@ -11,7 +11,7 @@ public class Listener  extends WindowAdapter implements ActionListener{
 
 	private JDA jda;
 
-	Listener(JDA jda){
+	public Listener(JDA jda){
 		this.jda = jda;
 	}
 

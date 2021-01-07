@@ -18,7 +18,7 @@ public class nowplayingCommand extends Command {
 
 	@Override
 	protected void execute(CommandEvent e) {
-		AudioTrack track = this.core.nowPlaying();
+		AudioTrack track = this.core.musicManager().player().getPlayingTrack();
 		e.reply("今現在 " + track.getInfo().title + " を再生中");
 	}
 }

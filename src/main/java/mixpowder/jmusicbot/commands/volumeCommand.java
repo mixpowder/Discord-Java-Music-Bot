@@ -21,8 +21,8 @@ public class volumeCommand extends Command{
 		String[] data = e.getMessage().getContentRaw().split(" ");
 		if(data.length == 2){
 			if(data[1].matches("[+-]?\\d*(\\.\\d+)?")){
-				this.core.setVolume(Integer.parseInt(data[1]));
-				e.reply("音量を" + this.core.getVolume() + "から" + data[1] + "に変更します");
+				this.core.musicManager().player().setVolume(Integer.parseInt(data[1]));
+				e.reply("音量を" + this.core.musicManager().player().getVolume() + "から" + data[1] + "に変更します");
 			}else{
 				e.reply("引数は数値にしてください");
 			}
@@ -30,5 +30,4 @@ public class volumeCommand extends Command{
 			e.reply("引数を設定してください");
 		}
 	}
-
 }

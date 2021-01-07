@@ -19,12 +19,13 @@ import net.dv8tion.jda.api.managers.AudioManager;
 public class Cores{
 	private final AudioPlayerManager playerManager;
 	private final Map<Long, GuildMusicManager> musicManagers;
-	public GuildMusicManager musicManager;
-	private AudioManager audioManager;
+	private GuildMusicManager musicManager;
+	private  AudioManager audioManager;
+	private config config;
 
-	public Cores(){
+	public Cores(config config){
 		this.musicManagers = new HashMap<>();
-
+		this.config = config;
 		this.playerManager = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(playerManager);
 		AudioSourceManagers.registerLocalSource(playerManager);
@@ -55,11 +56,8 @@ public class Cores{
 	    	}
 
 	    	public void playlistLoaded(AudioPlaylist playlist) {
-	    		//AudioTrack firstTrack = playlist.getSelectedTrack();
-	    		//System.out.println(playlist.getTracks().size());
 	    		for(AudioTrack track : playlist.getTracks()){
-	    		//channel.sendMessage(track.getInfo().title + "が再生リストに追加されました").queue();
-	    		play(channel.getGuild(), musicManager, track);
+	    			play(channel.getGuild(), musicManager, track);
 	    		}
 	    		channel.sendMessage(playlist.getTracks().size() + "曲が再生リストに追加されました").queue();
 
@@ -77,12 +75,12 @@ public class Cores{
 	  	public void play(Guild guild, GuildMusicManager musicManager, AudioTrack track) {
 	  		//this.audioManager = guild.getAudioManager();
 	  		connectToFirstVoiceChannel(guild.getAudioManager());
-	  		musicManager.player.setVolume(3);
-	  		musicManager.scheduler.queue(track);
+	  		musicManager.player().setVolume(3);
+	  		musicManager.scheduler().queue(track);
 	  	}
 
 	  	public void skipTrack() {
-	  		musicManager.scheduler.nextTrack();
+	  		musicManager.scheduler().nextTrack();
 	  	}
 
 
@@ -95,19 +93,15 @@ public class Cores{
 	  		}
 	  	}
 
-	  	public void setVolume(int nvolume){
-	  		musicManager.player.setVolume(nvolume);
-	  	}
-
-	  	public int getVolume(){
-	  		return musicManager.player.getVolume();
-	  	}
-
 	  	public AudioManager audioManager(){
 	  		return audioManager;
 	  	}
 
-	  	public AudioTrack nowPlaying(){
-	  		return musicManager.player.getPlayingTrack();
+	  	public GuildMusicManager musicManager(){
+	  		return musicManager;
+	  	}
+
+	  	public config config(){
+	  		return config;
 	  	}
 }
