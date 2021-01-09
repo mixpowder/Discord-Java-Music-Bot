@@ -10,9 +10,9 @@ public class queuelistCommand extends Command{
 	private Cores core;
 
 	public queuelistCommand(Cores core){
-		this.name = "queuelist";
-		this.help = "queuelist 現在流す予定の曲のリストを表示";
 		this.core = core;
+		this.name = core.node("queuelistCommand");
+		this.help = core.node("queuelistDescription");
 	}
 
 	@Override

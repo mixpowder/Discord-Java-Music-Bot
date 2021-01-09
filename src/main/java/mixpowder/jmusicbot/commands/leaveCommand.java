@@ -11,9 +11,9 @@ public class leaveCommand extends Command{
 	private Cores core;
 
 	public leaveCommand(Cores core){
-		this.name = "leave";
-		this.help = "leave ボイスチャンネルからbotを退出させます";
 		this.core = core;
+		this.name = core.node("leaveCommand");
+		this.help = core.node("leaveDescription");
 	}
 
 	@Override

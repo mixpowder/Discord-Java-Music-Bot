@@ -11,9 +11,9 @@ public class volumeCommand extends Command{
 	private Cores core;
 
 	public volumeCommand(Cores core){
-		this.name = "volume";
-		this.help = "volume <数値> 音量を設定します 初期は3です";
 		this.core = core;
+		this.name = core.node("volumeCommand");
+		this.help = core.node("volumeDescription");
 	}
 
 	@Override
@@ -21,8 +21,9 @@ public class volumeCommand extends Command{
 		String[] data = e.getMessage().getContentRaw().split(" ");
 		if(data.length == 2){
 			if(data[1].matches("[+-]?\\d*(\\.\\d+)?")){
-				this.core.musicManager().player().setVolume(Integer.parseInt(data[1]));
 				e.reply("音量を" + this.core.musicManager().player().getVolume() + "から" + data[1] + "に変更します");
+				this.core.musicManager().player().setVolume(Integer.parseInt(data[1]));
+				this.core.setvolume(data[1]);
 			}else{
 				e.reply("引数は数値にしてください");
 			}

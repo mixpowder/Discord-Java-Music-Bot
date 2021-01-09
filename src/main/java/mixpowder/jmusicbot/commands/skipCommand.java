@@ -11,9 +11,9 @@ public class skipCommand extends Command{
 	private Cores core;
 
 	public skipCommand(Cores core){
-		this.name = "skip";
-		this.help = "skip 曲をスキップして次トラックに移動させます";
 		this.core = core;
+		this.name = core.node("skipCommand");
+		this.help = core.node("skipDescription");
 	}
 
 	@Override

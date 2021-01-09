@@ -48,6 +48,7 @@ public class Cores{
 	public void loadAndPlay(final TextChannel channel, final String trackUrl) {
 		musicManager = getGuildAudioPlayer(channel.getGuild());
 		audioManager = channel.getGuild().getAudioManager();
+		musicManager.player().setVolume(Integer.parseInt(config.getSettings("volume")));
 	    playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
 	    	@Override
 	    	public void trackLoaded(AudioTrack track) {
@@ -75,7 +76,6 @@ public class Cores{
 	  	public void play(Guild guild, GuildMusicManager musicManager, AudioTrack track) {
 	  		//this.audioManager = guild.getAudioManager();
 	  		connectToFirstVoiceChannel(guild.getAudioManager());
-	  		musicManager.player().setVolume(3);
 	  		musicManager.scheduler().queue(track);
 	  	}
 
@@ -87,8 +87,12 @@ public class Cores{
 		private static void connectToFirstVoiceChannel(AudioManager audioManager) {
 	  		if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
 	  			for (VoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
-	  				audioManager.openAudioConnection(voiceChannel);
-	  				break;
+	  				if(voiceChannel.getMembers().size() == 0){
+	  					continue;
+	  				}else{
+	  					audioManager.openAudioConnection(voiceChannel);
+	  					break;
+	  				}
 	  			}
 	  		}
 	  	}
@@ -103,5 +107,13 @@ public class Cores{
 
 	  	public config config(){
 	  		return config;
+	  	}
+
+	  	public String node(String data){
+	  		return config.getSettings(data);
+	  	}
+
+	  	public void setvolume(String data){
+	  		config.setvolume(data);
 	  	}
 }

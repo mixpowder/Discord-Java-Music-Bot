@@ -10,9 +10,9 @@ public class stopCommand extends Command{
 	private Cores core;
 
 	public stopCommand(Cores core){
-		this.name = "stop";
-		this.help = "stop すべてのトラックを飛ばします";
 		this.core = core;
+		this.name = core.node("stopCommand");
+		this.help = core.node("stopDescription");
 	}
 
 	@Override

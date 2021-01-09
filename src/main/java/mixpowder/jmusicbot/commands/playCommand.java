@@ -11,9 +11,9 @@ public class playCommand extends Command{
 	private Cores core;
 
 	public playCommand(Cores core){
-		this.name = "play";
-		this.help = "play <url> 曲を再生させます";
 		this.core = core;
+		this.name = core.node("playCommand");
+		this.help = core.node("playDescription");
 	}
 
 	@Override
