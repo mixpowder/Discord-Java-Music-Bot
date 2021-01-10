@@ -2,29 +2,25 @@ package mixpowder.jmusicbot.cores;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
 public class config {
 
-	private Config config;
+
 	private ObjectNode node;
 
 	public config(){
 		try {
-			this.config = setConfig();
+			setConfig();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private Config setConfig() throws IOException{
-		File file = new File("config.txt");
+	private void setConfig() throws IOException{
 		File jsonfile = new File("Settings.json");
 		ObjectMapper mapper = new ObjectMapper();
 		Settings settings = new Settings();
@@ -41,31 +37,7 @@ public class config {
 		node = mapper.readTree(json).deepCopy();
 
 		mapper.writer(new DefaultPrettyPrinter()).writeValue(jsonfile, node);
-		//System.out.print(json);
-		if(!file.exists()){
-			file.createNewFile();
-			PrintWriter writer = new PrintWriter(file);
-			writer.println("OwnerID=ID\nBotToken=Token");
-			writer.close();
-			System.exit(0);
-		}
-		config = ConfigFactory.parseFile(file);
-		if(config.getString("OwnerID").equals("ID") || config.getString("BotToken").equals("Token")){
-			return null;
-		}
-		return config;
-	}
 
-	public String getToken(){
-		return config.getString("BotToken");
-	}
-
-	public String getOwnerID(){
-		return config.getString("OwnerID");
-	}
-
-	public Config getConfig(){
-		return config;
 	}
 
 	public String getSettings(String data){
@@ -86,6 +58,9 @@ public class config {
 
 
 class Settings{
+
+	public String OwnerID = "ID";
+	public String BotToken = "Token";
 	public String volume = "3";
 	public String prefix = "!!";
 

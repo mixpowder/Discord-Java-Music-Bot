@@ -23,7 +23,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Cores core = new Cores(new config());
-		if(!(core.config() == null)){
+		if(!(core.node("OwnerID").equals("ID") || core.node("BotToken").equals("Token"))){
 			JDA jda = Bot(core);
 			new Frame(jda);
 		}else{
@@ -43,13 +43,13 @@ public class Main {
 						new stopCommand(core),
 						new nowplayingCommand(core),
 						new queuelistCommand(core))
-				.setPrefix("!!")
-				.setOwnerId(core.config().getOwnerID())
+				.setPrefix(core.node("prefix"))
+				.setOwnerId(core.node("OwnerID"))
 				.setActivity(Activity.streaming("La Campanella","https://www.youtube.com/watch?v=H1Dvg2MxQn8"));
 
 		try {
 			jda = (new JDABuilder())
-					.setToken(core.config().getToken())
+					.setToken(core.node("BotToken"))
 					.addEventListeners(cc.build())
 					.build();
 		} catch (LoginException e) {

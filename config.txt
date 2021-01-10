@@ -1,2 +1,0 @@
-OwnerID=ID
-BotToken=Token
