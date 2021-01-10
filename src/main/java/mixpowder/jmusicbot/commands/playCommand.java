@@ -20,7 +20,7 @@ public class playCommand extends Command{
 	protected void execute(CommandEvent e) {
 		String[] url = e.getMessage().getContentRaw().split(" ");
 		if(url.length == 2){
-			core.loadAndPlay(e.getTextChannel(),url[1]);
+			core.loadAndPlay(e.getTextChannel(),e.getMember(),url[1]);
 		}else{
 			e.reply("引数を設定してください");
 		}

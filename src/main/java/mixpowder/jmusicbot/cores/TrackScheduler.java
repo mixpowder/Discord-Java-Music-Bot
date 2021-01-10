@@ -8,10 +8,13 @@ import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
+import net.dv8tion.jda.api.entities.TextChannel;
+
 
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
+	private TextChannel channel;
 
 
 	public TrackScheduler(AudioPlayer player) {
@@ -20,13 +23,12 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 
 
-	public void queue(AudioTrack track) {
-
+	public void queue(AudioTrack track,TextChannel channel) {
+		this.channel = channel;
 		if (!player.startTrack(track, true)) {
 			queue.offer(track);
 		}
 	}
-
 
 	public void nextTrack() {
 		player.startTrack(queue.poll(), false);
@@ -48,4 +50,8 @@ public class TrackScheduler extends AudioEventAdapter {
 			nextTrack();
 		}
 	}
+
+	 public void onTrackStart(AudioPlayer player, AudioTrack track) {
+		 channel.sendMessage(track.getInfo().title + "を再生します").queue();
+	 }
 }

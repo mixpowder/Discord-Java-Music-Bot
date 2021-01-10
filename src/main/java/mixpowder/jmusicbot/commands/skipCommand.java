@@ -19,7 +19,6 @@ public class skipCommand extends Command{
 	@Override
 	protected void execute(CommandEvent e) {
 		this.core.skipTrack();
-		e.reply("次のトラックに移動します");
 	}
 
 }

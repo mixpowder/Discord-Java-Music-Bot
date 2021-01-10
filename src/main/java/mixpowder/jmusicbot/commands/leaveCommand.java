@@ -19,11 +19,11 @@ public class leaveCommand extends Command{
 	@Override
 	protected void execute(CommandEvent e) {
 		AudioManager audioManager = this.core.audioManager();
-		if (!audioManager.isConnected()) {
+		if (audioManager == null || !audioManager.isConnected()) {
 			e.reply("ボイスチャンネルに接続されていません");
-            return;
 		}else{
 			audioManager.closeAudioConnection();
+			this.core.musicManager().player().destroy();
 		}
 	}
 }
