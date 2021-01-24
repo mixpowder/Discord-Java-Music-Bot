@@ -6,14 +6,14 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import mixpowder.jmusicbot.cores.Cores;
 import net.dv8tion.jda.api.managers.AudioManager;
 
-public class stopCommand extends Command{
+public class LeaveCommand extends Command{
 
 	private Cores core;
 
-	public stopCommand(Cores core){
+	public LeaveCommand(Cores core){
 		this.core = core;
-		this.name = core.node("stopCommand");
-		this.help = core.node("stopDescription");
+		this.name = core.node("leaveCommand");
+		this.help = core.node("leaveDescription");
 	}
 
 	@Override
@@ -22,9 +22,9 @@ public class stopCommand extends Command{
 		if (audioManager == null || !audioManager.isConnected()) {
 			e.reply("ボイスチャンネルに接続されていません");
 		}else{
+			audioManager.closeAudioConnection();
 			this.core.musicManager().player().destroy();
-			e.reply("曲を終了させました");
+			this.core.musicManager().scheduler().queuebreak();
 		}
 	}
-
 }

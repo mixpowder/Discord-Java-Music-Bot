@@ -1,5 +1,6 @@
 package mixpowder.jmusicbot.cores;
 
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -34,6 +35,37 @@ public class TrackScheduler extends AudioEventAdapter {
 		player.startTrack(queue.poll(), false);
 	}
 
+	public boolean shuffle(){
+		AudioTrack[] array = new AudioTrack[queue.size()];
+		AudioTrack tmp = null;
+		Random rnd = new Random();
+
+		if(queue.size() > 1){
+			for(int i = 0; i < queue.size();i++){
+				array[i] = (AudioTrack) queue.toArray()[i];
+			}
+
+			for (int i = 0; i < array.length; i++){
+				int index = rnd.nextInt(array.length);
+				tmp = array[i];
+				array[i] = array[index];
+				array[index] = tmp;
+			}
+
+			queuebreak();
+			for(int i = 0; i < array.length; i++){
+				if(array[i] != null){
+					queue.offer(array[i]);
+				}
+			}
+
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+
 	public String queuelist(){
 		String list = "";
 		int id = 1;
@@ -42,6 +74,10 @@ public class TrackScheduler extends AudioEventAdapter {
 			id++;
 		}
 		return list;
+	}
+
+	public void queuebreak(){
+		queue.removeAll(queue);
 	}
 
 	@Override

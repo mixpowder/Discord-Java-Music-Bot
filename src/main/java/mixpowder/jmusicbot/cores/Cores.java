@@ -8,18 +8,16 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.managers.AudioManager;
 
 public class Cores{
 	private final AudioPlayerManager playerManager;
 	private GuildMusicManager musicManager;
 	private  AudioManager audioManager;
-	private config config;
+	private Config config;
 
-	public Cores(config config){
+	public Cores(Config config){
 		this.config = config;
 		this.playerManager = new DefaultAudioPlayerManager();
 		AudioSourceManagers.registerRemoteSources(playerManager);
@@ -27,20 +25,23 @@ public class Cores{
 		this.musicManager = new GuildMusicManager(playerManager);
 	}
 
-	public void loadAndPlay(final TextChannel channel,final Member member, final String trackUrl) {
+	public void setaudioManager(TextChannel channel){
 		channel.getGuild().getAudioManager().setSendingHandler(musicManager.getSendHandler());
 		audioManager = channel.getGuild().getAudioManager();
+	}
+
+	public void loadAndPlay(final TextChannel channel,final String trackUrl) {
 		musicManager.player().setVolume(Integer.parseInt(config.getSettings("volume")));
 	    playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
 	    	@Override
 	    	public void trackLoaded(AudioTrack track) {
 	    		channel.sendMessage(track.getInfo().title + "が再生リストに追加されました").queue();
-	    		play(channel, track, member);
+	    		play(channel, track);
 	    	}
 
 	    	public void playlistLoaded(AudioPlaylist playlist) {
 	    		for(AudioTrack track : playlist.getTracks()){
-	    			play(channel, track, member);
+	    			play(channel, track);
 	    		}
 	    		channel.sendMessage(playlist.getTracks().size() + "曲が再生リストに追加されました").queue();
 
@@ -55,31 +56,12 @@ public class Cores{
 	    });
 	}
 
-	  	public void play(TextChannel channel, AudioTrack track, Member member) {
-	  		connectToFirstVoiceChannel(member);
+	  	public void play(TextChannel channel, AudioTrack track) {
 	  		musicManager.scheduler().queue(track,channel);
 	  	}
 
 	  	public void skipTrack() {
 	  		musicManager.scheduler().nextTrack();
-	  	}
-
-
-	  	private void connectToFirstVoiceChannel(Member member) {
-	  		if (!audioManager.isConnected()) {
-	  			if(member.getVoiceState().getChannel() == null){
-	  				for (VoiceChannel voiceChannel : audioManager.getGuild().getVoiceChannels()) {
-	  					if(voiceChannel.getMembers().size() == 0){
-	  						continue;
-	  					}else{
-	  						audioManager.openAudioConnection(voiceChannel);
-	  						break;
-	  					}
-	  				}
-	  			}else{
-	  				audioManager.openAudioConnection(member.getVoiceState().getChannel());
-	  			}
-	  		}
 	  	}
 
 	  	public AudioManager audioManager(){
@@ -90,7 +72,7 @@ public class Cores{
 	  		return musicManager;
 	  	}
 
-	  	public config config(){
+	  	public Config config(){
 	  		return config;
 	  	}
 

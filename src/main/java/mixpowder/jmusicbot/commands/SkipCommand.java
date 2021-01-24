@@ -5,18 +5,21 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 
 import mixpowder.jmusicbot.cores.Cores;
 
-public class queuelistCommand extends Command{
+
+public class SkipCommand extends Command{
 
 	private Cores core;
 
-	public queuelistCommand(Cores core){
+	public SkipCommand(Cores core){
 		this.core = core;
-		this.name = core.node("queuelistCommand");
-		this.help = core.node("queuelistDescription");
+		this.name = core.node("skipCommand");
+		this.help = core.node("skipDescription");
 	}
 
 	@Override
 	protected void execute(CommandEvent e) {
-		e.reply(core.musicManager().scheduler().queuelist());
+		this.core.skipTrack();
+		e.reply("次のトラックへ移動します");
 	}
+
 }

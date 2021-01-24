@@ -7,12 +7,12 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class config {
+public class Config {
 
 
 	private ObjectNode node;
 
-	public config(){
+	public Config(){
 		try {
 			setConfig();
 		} catch (IOException e) {
@@ -86,4 +86,6 @@ class Settings{
 	public String volumeCommand = "volume";
 	public String volumeDescription = "volume <数値> 音量を設定します 初期は3です";
 
+	public String shuffleCommand = "shuffle";
+	public String shuffleDescription = "shuffle キューに入っている曲をシャッフルします";
 }

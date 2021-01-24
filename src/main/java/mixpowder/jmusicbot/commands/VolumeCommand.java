@@ -6,11 +6,11 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import mixpowder.jmusicbot.cores.Cores;
 
 
-public class volumeCommand extends Command{
+public class VolumeCommand extends Command{
 
 	private Cores core;
 
-	public volumeCommand(Cores core){
+	public VolumeCommand(Cores core){
 		this.core = core;
 		this.name = core.node("volumeCommand");
 		this.help = core.node("volumeDescription");

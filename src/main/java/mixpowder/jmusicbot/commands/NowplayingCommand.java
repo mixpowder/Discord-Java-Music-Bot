@@ -6,11 +6,11 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
 import mixpowder.jmusicbot.cores.Cores;
 
-public class nowplayingCommand extends Command {
+public class NowplayingCommand extends Command {
 
 	private Cores core;
 
-	public nowplayingCommand(Cores core){
+	public NowplayingCommand(Cores core){
 		this.core = core;
 		this.name = core.node("nowplayingCommand");
 		this.help = core.node("nowplayingDescription");
