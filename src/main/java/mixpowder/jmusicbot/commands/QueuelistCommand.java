@@ -17,7 +17,7 @@ public class QueuelistCommand extends Command{
 
 	@Override
 	protected void execute(CommandEvent e) {
-		String s = core.musicManager().scheduler().queuelist();
+		String s = this.core.musicManager().scheduler().queuelist();
 		if(s != ""){
 			e.reply(s);
 		}else{

@@ -8,6 +8,7 @@ import mixpowder.jmusicbot.commands.LeaveCommand;
 import mixpowder.jmusicbot.commands.NowplayingCommand;
 import mixpowder.jmusicbot.commands.PlayCommand;
 import mixpowder.jmusicbot.commands.QueuelistCommand;
+import mixpowder.jmusicbot.commands.RepeatCommand;
 import mixpowder.jmusicbot.commands.ShuffleCommand;
 import mixpowder.jmusicbot.commands.SkipCommand;
 import mixpowder.jmusicbot.commands.StopCommand;
@@ -44,7 +45,8 @@ public class Main {
 						new StopCommand(core),
 						new NowplayingCommand(core),
 						new QueuelistCommand(core),
-						new ShuffleCommand(core))
+						new ShuffleCommand(core),
+						new RepeatCommand(core))
 				.setPrefix(core.node("prefix"))
 				.setOwnerId(core.node("OwnerID"))
 				.setActivity(Activity.streaming("La Campanella","https://www.youtube.com/watch?v=H1Dvg2MxQn8"));

@@ -34,21 +34,21 @@ public class Config {
 
 		settings = mapper.readValue(json,Settings.class);
 		json = mapper.writeValueAsString(settings);
-		node = mapper.readTree(json).deepCopy();
+		this.node = mapper.readTree(json).deepCopy();
 
-		mapper.writer(new DefaultPrettyPrinter()).writeValue(jsonfile, node);
+		mapper.writer(new DefaultPrettyPrinter()).writeValue(jsonfile, this.node);
 
 	}
 
 	public String getSettings(String data){
-		return node.get(data).textValue();
+		return this.node.get(data).textValue();
 	}
 
 	public void setvolume(String data){
 		File jsonfile = new File("Settings.json");
-		node.put("volume",data);
+		this.node.put("volume",data);
 		try {
-			(new ObjectMapper()).writer(new DefaultPrettyPrinter()).writeValue(jsonfile, node);
+			(new ObjectMapper()).writer(new DefaultPrettyPrinter()).writeValue(jsonfile, this.node);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -88,4 +88,7 @@ class Settings{
 
 	public String shuffleCommand = "shuffle";
 	public String shuffleDescription = "shuffle キューに入っている曲をシャッフルします";
+
+	public String repeatCommand = "repeat";
+	public String repeatDescription = "repeat 曲をリピートします";
 }

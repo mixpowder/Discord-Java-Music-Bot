@@ -15,10 +15,14 @@ import net.dv8tion.jda.api.entities.TextChannel;
 public class TrackScheduler extends AudioEventAdapter {
 	private final AudioPlayer player;
 	private final BlockingQueue<AudioTrack> queue;
+	private final Cores core;
+	private AudioTrack nowtrack;
+	private Boolean bool = false;
 	private TextChannel channel;
 
 
-	public TrackScheduler(AudioPlayer player) {
+	public TrackScheduler(AudioPlayer player,Cores core) {
+		this.core = core;
 		this.player = player;
 		this.queue = new LinkedBlockingQueue<>();
 	}
@@ -26,23 +30,27 @@ public class TrackScheduler extends AudioEventAdapter {
 
 	public void queue(AudioTrack track,TextChannel channel) {
 		this.channel = channel;
-		if (!player.startTrack(track, true)) {
-			queue.offer(track);
+
+		if (!this.player.startTrack(track, true)) {
+			this.queue.offer(track);
+		}else{
+			this.nowtrack = track.makeClone();
 		}
 	}
 
 	public void nextTrack() {
-		player.startTrack(queue.poll(), false);
+		this.nowtrack = this.queue.peek().makeClone();
+		this.player.startTrack(this.queue.poll(), false);
 	}
 
 	public boolean shuffle(){
-		AudioTrack[] array = new AudioTrack[queue.size()];
+		AudioTrack[] array = new AudioTrack[this.queue.size()];
 		AudioTrack tmp = null;
 		Random rnd = new Random();
 
-		if(queue.size() > 1){
-			for(int i = 0; i < queue.size();i++){
-				array[i] = (AudioTrack) queue.toArray()[i];
+		if(this.queue.size() > 1){
+			for(int i = 0; i < this.queue.size();i++){
+				array[i] = (AudioTrack) this.queue.toArray()[i];
 			}
 
 			for (int i = 0; i < array.length; i++){
@@ -55,7 +63,7 @@ public class TrackScheduler extends AudioEventAdapter {
 			queuebreak();
 			for(int i = 0; i < array.length; i++){
 				if(array[i] != null){
-					queue.offer(array[i]);
+					this.queue.offer(array[i]);
 				}
 			}
 
@@ -69,7 +77,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	public String queuelist(){
 		String list = "";
 		int id = 1;
-		for(AudioTrack track : queue){
+		for(AudioTrack track : this.queue){
 			list += id + "番目: " + track.getInfo().title + "\n";
 			id++;
 		}
@@ -77,17 +85,26 @@ public class TrackScheduler extends AudioEventAdapter {
 	}
 
 	public void queuebreak(){
-		queue.removeAll(queue);
+		this.queue.removeAll(this.queue);
+	}
+
+	public void setRepeat(Boolean bool){
+		this.bool = bool;
 	}
 
 	@Override
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if (endReason.mayStartNext) {
-			nextTrack();
+			if(this.bool){
+				player.startTrack(this.nowtrack.makeClone(),true);
+			}else{
+				nextTrack();
+			}
+
 		}
 	}
 
 	 public void onTrackStart(AudioPlayer player, AudioTrack track) {
-		 channel.sendMessage(track.getInfo().title + "を再生します").queue();
+		 this.channel.sendMessage(track.getInfo().title + "を再生します").queue();
 	 }
 }

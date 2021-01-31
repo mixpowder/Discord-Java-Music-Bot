@@ -9,21 +9,21 @@ public class GuildMusicManager {
 	private final AudioPlayer player;
 	private final TrackScheduler scheduler;
 
-	public GuildMusicManager(AudioPlayerManager manager) {
-		player = manager.createPlayer();
-		scheduler = new TrackScheduler(player);
-		player.addListener(scheduler);
+	public GuildMusicManager(AudioPlayerManager manager,Cores core) {
+		this.player = manager.createPlayer();
+		this.scheduler = new TrackScheduler(this.player,core);
+		this.player.addListener(this.scheduler);
 	}
 
 	public AudioPlayerSendHandler getSendHandler() {
-		return new AudioPlayerSendHandler(player);
+		return new AudioPlayerSendHandler(this.player);
 	}
 
 	public TrackScheduler scheduler(){
-		return scheduler;
+		return this.scheduler;
 	}
 
 	public AudioPlayer player(){
-		return player;
+		return this.player;
 	}
 }

@@ -20,19 +20,19 @@ public class Cores{
 	public Cores(Config config){
 		this.config = config;
 		this.playerManager = new DefaultAudioPlayerManager();
-		AudioSourceManagers.registerRemoteSources(playerManager);
-		AudioSourceManagers.registerLocalSource(playerManager);
-		this.musicManager = new GuildMusicManager(playerManager);
+		AudioSourceManagers.registerRemoteSources(this.playerManager);
+		AudioSourceManagers.registerLocalSource(this.playerManager);
+		this.musicManager = new GuildMusicManager(this.playerManager,this);
 	}
 
 	public void setaudioManager(TextChannel channel){
-		channel.getGuild().getAudioManager().setSendingHandler(musicManager.getSendHandler());
-		audioManager = channel.getGuild().getAudioManager();
+		channel.getGuild().getAudioManager().setSendingHandler(this.musicManager.getSendHandler());
+		this.audioManager = channel.getGuild().getAudioManager();
 	}
 
 	public void loadAndPlay(final TextChannel channel,final String trackUrl) {
-		musicManager.player().setVolume(Integer.parseInt(config.getSettings("volume")));
-	    playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
+		this.musicManager.player().setVolume(Integer.parseInt(this.config.getSettings("volume")));
+	    this.playerManager.loadItemOrdered(this.musicManager, trackUrl, new AudioLoadResultHandler() {
 	    	@Override
 	    	public void trackLoaded(AudioTrack track) {
 	    		channel.sendMessage(track.getInfo().title + "が再生リストに追加されました").queue();
@@ -57,30 +57,30 @@ public class Cores{
 	}
 
 	  	public void play(TextChannel channel, AudioTrack track) {
-	  		musicManager.scheduler().queue(track,channel);
+	  		this.musicManager.scheduler().queue(track,channel);
 	  	}
 
 	  	public void skipTrack() {
-	  		musicManager.scheduler().nextTrack();
+	  		this.musicManager.scheduler().nextTrack();
 	  	}
 
 	  	public AudioManager audioManager(){
-	  		return audioManager;
+	  		return this.audioManager;
 	  	}
 
 	  	public GuildMusicManager musicManager(){
-	  		return musicManager;
+	  		return this.musicManager;
 	  	}
 
 	  	public Config config(){
-	  		return config;
+	  		return this.config;
 	  	}
 
 	  	public String node(String data){
-	  		return config.getSettings(data);
+	  		return this.config.getSettings(data);
 	  	}
 
 	  	public void setvolume(String data){
-	  		config.setvolume(data);
+	  		this.config.setvolume(data);
 	  	}
 }
