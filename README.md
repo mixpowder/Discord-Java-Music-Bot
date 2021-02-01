@@ -27,7 +27,7 @@ IDをコピーを押しますそれがOwnerIDです。
 
 "OwnerID" : "プレイヤーのID" のようにしてください
 
-![explain2](https://user-images.githubusercontent.com/63492532/103481812-78f25700-4e20-11eb-9e41-b0b8fb7682ed.jpg)
+![explain2](https://user-images.githubusercontent.com/63492532/106453068-15fde980-64cc-11eb-990f-8b6be7374030.jpg)
 
 あとは起動して、招待したサーバーで!!helpコマンドを実行してコマンドを確認したうえで使ってくださいね～
 
