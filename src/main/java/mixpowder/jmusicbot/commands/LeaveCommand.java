@@ -25,6 +25,7 @@ public class LeaveCommand extends Command{
 			audioManager.closeAudioConnection();
 			this.core.musicManager().player().destroy();
 			this.core.musicManager().scheduler().queuebreak();
+			e.reply("ボイスチャンネルから切断しました");
 		}
 	}
 }

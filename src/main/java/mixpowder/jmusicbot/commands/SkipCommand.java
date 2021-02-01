@@ -18,8 +18,11 @@ public class SkipCommand extends Command{
 
 	@Override
 	protected void execute(CommandEvent e) {
-		this.core.skipTrack();
-		e.reply("次のトラックへ移動します");
+		if(this.core.musicManager().scheduler().nextTrack()){
+			e.reply("次のトラックへ移動します");
+		}else{
+			e.reply("次のトラックが存在しないため終了しました");
+		}
 	}
 
 }

@@ -38,9 +38,16 @@ public class TrackScheduler extends AudioEventAdapter {
 		}
 	}
 
-	public void nextTrack() {
-		this.nowtrack = this.queue.peek().makeClone();
-		this.player.startTrack(this.queue.poll(), false);
+	public boolean nextTrack() {
+		if(this.queue.size() != 0){
+			this.nowtrack = this.queue.peek().makeClone();
+			this.player.startTrack(this.queue.poll(), false);
+			return true;
+		}else{
+			this.player.stopTrack();
+			return false;
+		}
+
 	}
 
 	public boolean shuffle(){
@@ -49,7 +56,7 @@ public class TrackScheduler extends AudioEventAdapter {
 		Random rnd = new Random();
 
 		if(this.queue.size() > 1){
-			for(int i = 0; i < this.queue.size();i++){
+			for(int i = 0; i < this.queue.size(); i++){
 				array[i] = (AudioTrack) this.queue.toArray()[i];
 			}
 
@@ -96,7 +103,7 @@ public class TrackScheduler extends AudioEventAdapter {
 	public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
 		if (endReason.mayStartNext) {
 			if(this.bool){
-				player.startTrack(this.nowtrack.makeClone(),true);
+				player.startTrack(this.nowtrack.makeClone(), true);
 			}else{
 				nextTrack();
 			}
